@@ -1,11 +1,8 @@
 {% extends "base.html" %}
-
-{% load custom_filters %}
-{% load static %}
+{% load custom_filters static crispy_forms_tags %}
 
 {% block content %}
 
-<!-- Character Detail Page -->
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 mb-4">
@@ -35,17 +32,17 @@
                             <strong>HP:</strong> {{ character.hp }}
                         </div>
                     </div>
-                    
+
                     <!-- Status Effects -->
                     <h5 class="text-secondary mb-3">Status Effects</h5>
                     <div class="row">
                         {% for status, label in status_effects %}
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled {% if character|attr:status %}checked{% endif %}>
-                                <label class="form-check-label">{{ label }}</label>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled {% if character|attr:status %}checked{% endif %}>
+                                    <label class="form-check-label">{{ label }}</label>
+                                </div>
                             </div>
-                        </div>
                         {% endfor %}
                     </div>
 
@@ -57,6 +54,32 @@
                 </div>
             </div>
         </div>
+
+        {% if can_comment %}
+        <!-- Comments Section -->
+        <div class="col-12 col-md-8 col-lg-6 mt-5">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5>Leave a Comment</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'character_detail' character.slug %}">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Submit Comment</button>
+                    </form>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h5>Comments:</h5>
+                {% for comment in comments %}
+                    <p><strong>{{ comment.user.username }}:</strong> {{ comment.content }}</p>
+                {% empty %}
+                    <p>No comments yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 
