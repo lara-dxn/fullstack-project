@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-n$9=t$i2cu3at%6dm*eny&qbofzub!bd5286=@7qu&h7gitg_^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
 
 
 # Application definition
@@ -86,8 +86,17 @@ WSGI_APPLICATION = 'character_manager.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    'default': dj_database_url.parse(
+        os.environ.get("DATABASE_URL", "postgres://usx78yuw7gv:uafSay1PmQlR@ep-gentle-mountain-a23bxz6h-pooler.eu-central-1.aws.neon.tech/spool_ebony_cushy_715418")
+    )
+
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.codeinstitute-ide.net/",
+    "https://*.herokuapp.com"
+]
+
 
 
 # Password validation
