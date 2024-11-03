@@ -8,7 +8,7 @@ class CharcterAdmin(SummernoteModelAdmin):
     list_display = ('owner', 'name', 'hp', 'character_class')
     search_fields = ['owner']
     #prepopulated_fields = {'': ('',)}
-    summernote_fields = ('name',)
+    #summernote_fields = ('name',)
 
 # Register your models here.
 admin.site.register(UserProfile)

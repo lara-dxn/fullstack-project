@@ -10,6 +10,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 class Character(models.Model):
+    slug = models.SlugField(max_length=200, unique=True, default='')
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     hp = models.IntegerField()

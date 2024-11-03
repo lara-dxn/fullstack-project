@@ -18,8 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path("", include("character_sheet.urls"), name="character_sheet"),
+    path("bg_info/", include("bg_info.urls"), name="bg_info-urls"),
     path('admin/', admin.site.urls),
-    path('character_sheet/', include('character_sheet.urls')),
+    #path('character_sheet/', include('character_sheet.urls')),
     path('summernote/', include('django_summernote.urls')),
+    path("", include("character_sheet.urls"), name="character_sheet"),
 ]

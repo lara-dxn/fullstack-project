@@ -1,23 +1,27 @@
 {% extends "base.html" %}
 
 {% load custom_filters %}
+{% load static %}
 
 {% block content %}
 
-<!-- index.html content starts here -->
+<!-- Character Detail Page -->
 <div class="container my-5">
-    <div class="row">
-        {% for character in character_list %}
-    
-        <!-- Character Information Card -->
-        <div class="col-12 col-sm-6 col-md-4 mb-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 mb-4">
             <div class="card shadow-lg">
+                <!-- Character Header -->
                 <div class="card-header text-center">
-                    <a href="{% url 'character_detail' character.slug %}" class="post-link">
                     <h2>{{ character.name }}</h2>
-                    </a>
                     <p class="mb-0">Played by: {{ character.owner }}</p>
                 </div>
+
+                <!-- Profile Image -->
+                <div class="text-center mt-3">
+                    <img src="{% static 'images/placeholder_profile.svg' %}" class="rounded-circle" alt="Profile Image" width="120">
+                </div>
+
+                <!-- Character Info -->
                 <div class="card-body">
                     <!-- Basic Info -->
                     <div class="row mb-4 pb-4 basic-info">
@@ -53,10 +57,7 @@
                 </div>
             </div>
         </div>
-        
-        {% endfor %}
     </div>
 </div>
 
-<!-- index.html content ends here -->
 {% endblock %}
