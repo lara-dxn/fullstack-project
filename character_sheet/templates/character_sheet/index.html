@@ -4,17 +4,17 @@
 
 {% block content %}
 
-<!-- index.html content starts here -->
 <div class="container my-5">
+    {% if user.is_authenticated %}
+    <!-- Display Character Cards if User is Logged In -->
     <div class="row">
         {% for character in character_list %}
-    
         <!-- Character Information Card -->
         <div class="col-12 col-sm-6 col-md-4 mb-4">
             <div class="card shadow-lg">
                 <div class="card-header text-center">
                     <a href="{% url 'character_detail' character.slug %}" class="post-link">
-                    <h2>{{ character.name }}</h2>
+                        <h2>{{ character.name }}</h2>
                     </a>
                     <p class="mb-0">Played by: {{ character.owner }}</p>
                 </div>
@@ -53,10 +53,70 @@
                 </div>
             </div>
         </div>
-        
         {% endfor %}
     </div>
+
+    {% else %}
+    <!-- Display Welcome Message and Mock Card if User is Not Logged In -->
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-lg text-center">
+                <div class="card-header text-white">
+                    <h2>Welcome to the Character Creation Manager</h2>
+                </div>
+                <div class="card-body">
+                    <p class="text-secondary">Explore character creation and management features. <a href="{% url 'account_login' %}">Log in</a> or <a href="{% url 'account_signup' %}">register</a> to view your characters or create new ones!</p>
+                    <p class="text-secondary">Still curious? Read more about the idea behind this app <a href="{% url 'bg_info' %}">here</a></p>
+                    <!-- Mocked-up Character Card -->
+                    <div class="card mt-4 shadow mock-up-card">
+                        <div class="card-header text-center">
+                            <h3>Sample Character</h3>
+                            <p class="mb-0">Played by: Sample User</p>
+                        </div>
+                        <div class="card-body overlay">
+                            <div class="row mb-4 pb-4 basic-info">
+                                <div class="col-4">
+                                    <strong>Class:</strong> Wizard
+                                </div>
+                                <div class="col-4">
+                                    <strong>Race:</strong> Elf
+                                </div>
+                                <div class="col-4">
+                                    <strong>HP:</strong> 35
+                                </div>
+                            </div>
+                    
+                            <!-- Status Effects -->
+                            <h5 class="text-secondary mb-3">Status Effects</h5>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled checked>
+                                        <label class="form-check-label">Blinded</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                        <label class="form-check-label">Charmed</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                        <label class="form-check-label">Deafened</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                        <label class="form-check-label">Frightened</label>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
-<!-- index.html content ends here -->
 {% endblock %}

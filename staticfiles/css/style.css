@@ -79,6 +79,42 @@ body {
     color: #3a3f51;
 }
 
+.mock-up-card .card-header{
+    background-color: #757575;
+}
+
+/* Style for the mock-up card overlay */
+.mock-up-card {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Remove hover effect on the mock-up card */
+.mock-up-card:hover {
+    transform: none;
+}
+
+/* Overlay gradient effect */
+.mock-up-card .overlay {
+    position: relative;
+    z-index: 1;
+}
+
+/* Gradient overlay */
+.mock-up-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9));
+    pointer-events: none; /* Allows interaction with underlying elements if needed */
+    z-index: 2;
+}
+
+
+
 /* Mobile and Responsive Adjustments */
 @media (max-width: 768px) {
     .card-body .row div {

@@ -33,6 +33,13 @@
         <li><a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a></li>
         {% endif %}
       </ul>
+      <div>
+        {% if user.is_authenticated %}
+        <p class="text-end m-3">You are logged in as {{ user }}</p>
+        {% else %}
+        <p class="text-end m-3">You are not logged in</p>
+    {% endif %}
+      </div>
     </div>
     {% block content %}
     {% endblock content %}
@@ -41,3 +48,4 @@
     {% endblock extra_body %}
   </body>
 </html>
+
