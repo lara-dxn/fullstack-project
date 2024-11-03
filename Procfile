@@ -1,1 +1,1 @@
-web: gunicorn character_sheet_manager.wsgi
+web: gunicorn character_manager.wsgi
