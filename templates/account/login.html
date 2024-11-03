@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <!-- Sign In Card -->
+            <div class="card shadow-lg">
+                <div class="card-header text-center text-white">
+                    <h3>{% trans "Sign In" %}</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Intro Text -->
+                    <p class="mb-4 text-center text-secondary">
+                        {% blocktrans %}Welcome back to the code|star blog. To leave a comment or like a post, please log in.
+                        If you have not created an account yet, then <a class="link" href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}
+                    </p>
+
+                    <!-- Sign In Form -->
+                    <form class="login" method="POST" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
+                        <button class="btn btn-primary-dark w-100 mt-3" type="submit">{% trans "Sign In" %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
