@@ -1,0 +1,88 @@
+body {
+    background-color: #F9FAFC;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: #3a3f51; /* Dark gray with blue hint */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.card-header a{
+    color:white;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.basic-info{
+    border-bottom: 1px solid rgb(33, 37, 41);
+}
+
+.card-body .row div {
+    font-size: 0.95rem;
+    color: #555; /* Light gray for labels */
+}
+
+.card-body .row div strong {
+    color: #333; /* Darker gray for values */
+}
+
+.text-secondary {
+    color: #666 !important; /* Slightly muted gray for headings */
+}
+
+.form-check-input {
+    border-color: #3a3f51;
+    background-color: #f7f7f7;
+}
+
+.form-check-input:checked {
+    background-color: #3a3f51;
+    border-color: #3a3f51;
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.mt-4 p {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #3a3f51;
+}
+
+/* Mobile and Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-body .row div {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+}
