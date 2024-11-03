@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views import generic
+from .models import Character, UserProfile
 
-def my_blog(request):
-    return HttpResponse("Hello, Blog!")
-# Create your views here.
+class CharacterList(generic.ListView):
+    queryset = Character.objects.all()
+    template_name = "character_list.html"
