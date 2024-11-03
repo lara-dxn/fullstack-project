@@ -13,7 +13,8 @@ class Character(models.Model):
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     hp = models.IntegerField()
-    character_class = models.CharField(max_length=100)
+    character_class = models.CharField(max_length=100, default='')
+    character_race = models.CharField(max_length=100, default='')
 
     blinded = models.BooleanField(default=False)
     charmed = models.BooleanField(default=False)

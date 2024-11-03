@@ -4,4 +4,5 @@ from .models import Character, UserProfile
 
 class CharacterList(generic.ListView):
     queryset = Character.objects.all()
-    template_name = "character_list.html"
+    template_name = "character_sheet/index.html"
+    paginate_by = 6
