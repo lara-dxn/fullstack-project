@@ -7,3 +7,12 @@ __pycache__/
 node_modules/
 .github/
 cloudinary_python.txt
+.env
+*.env
+config/settings/local.py
+config/settings/dev.py
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
