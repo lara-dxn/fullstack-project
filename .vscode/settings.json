@@ -15,4 +15,5 @@
    "files.autoSave": "off",
    "workbench.colorTheme": "Visual Studio Dark",
    "terminal.integrated.gpuAcceleration": "canvas",
+   "python.pythonPath": "C:\\Users\\internet\\.virtualenvs\\fullstack-project-qh5Mpz20\\Scripts\\python.exe",
 }
