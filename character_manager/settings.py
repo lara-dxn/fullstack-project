@@ -28,7 +28,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = 'django-insecure-n$9=t$i2cu3at%6dm*eny&qbofzub!bd5286=@7qu&h7gitg_^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
 ACCOUNT_FORMS = {'signup': 'character_sheet.forms.CustomSignupForm'}
