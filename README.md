@@ -5,6 +5,9 @@ This app gives users full CRUD functionality for their own characters - they are
 GMs have access to full CRUD functionality to all characters, i.e. their own and other players' characters.
 MOSCOW methodology was used to create and priortise user stories as well as update expectations and intended use cases during development.
 
+## Live app
+The live app, hosted on heroku, can be found [https://fullstack-character-manager-2b32ce1f5d35.herokuapp.com/] (here).
+
 ## Project Features
 
 - **User Authentication and Profiles**: Users can register, log in, and manage their profiles.
@@ -24,7 +27,7 @@ MOSCOW methodology was used to create and priortise user stories as well as upda
 
 ## Testing
 
-## Manual testing##
+## Manual testing ##
 1. **User Authentication**: Registration, login, and profile access functionalities were verified.
 2. **Character CRUD Operations**:
    - **Creation**: Confirmed that characters are created with unique slugs and owner permissions.
@@ -35,8 +38,8 @@ MOSCOW methodology was used to create and priortise user stories as well as upda
 4. **Status Effects and Exhaustion Levels**: Checked that toggles and dropdowns display and save correctly in character profiles.
 
 ## Verification
-- [https://validator.w3.org/)](HTML verification)
-- [https://jigsaw.w3.org/css-validator/](CSS validation)
+- [https://validator.w3.org](HTML verification)
+- [https://jigsaw.w3.org/css-validator](CSS validation)
 - Performance testing: Google Lighthouse plugin
 - Accessibility testing: Google Silktide plugin
 
