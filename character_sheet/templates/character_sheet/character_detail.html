@@ -23,7 +23,11 @@
 
                 <!-- Profile Image -->
                 <div class="text-center mt-3">
-                    <img src="{% static 'images/placeholder_profile.svg' %}" class="rounded-circle" alt="Profile Image" width="120">
+                    {% if character.image %}
+                        <img src="{{ character.image.url }}" class="rounded-circle" alt="Profile Image" width="120">
+                    {% else %}
+                        <img src="{% static 'images/placeholder_profile.svg' %}" class="rounded-circle" alt="Profile Image" width="120">
+                    {% endif %}
                 </div>
 
                 <!-- Character Info -->

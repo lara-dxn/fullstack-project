@@ -73,6 +73,11 @@ body {
     color: #444;
 }
 
+.btn-custom{
+    background-color: #3a3f51;
+    color: white;
+}
+
 .mt-4 p {
     font-weight: bold;
     font-size: 1.1rem;

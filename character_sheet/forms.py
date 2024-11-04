@@ -1,15 +1,26 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms.widgets import ClearableFileInput 
 from allauth.account.forms import SignupForm
 from .models import Character
+
+class CustomClearableFileInput(ClearableFileInput):
+    template_name = 'widgets/custom_clearable_file_input.html'
 
 class CharacterForm(forms.ModelForm):
     class Meta:
         model = Character
-        fields = ['name', 'hp', 'character_class', 'character_race', 'blinded', 'charmed', 
+        fields = ['name', 'hp', 'character_class', 'character_race', 'image', 'blinded', 'charmed', 
                   'deafened', 'frightened', 'grappled', 'incapacitated', 'invisible', 
                   'paralyzed', 'petrified', 'poisoned', 'prone', 'restrained', 'stunned', 
                   'unconscious', 'exhaustion']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'hp': forms.NumberInput(attrs={'class': 'form-control'}),
+            'character_class': forms.TextInput(attrs={'class': 'form-control'}),
+            'character_race': forms.TextInput(attrs={'class': 'form-control'}),
+            'image': CustomClearableFileInput(attrs={'class': 'form-control'}),
+        }
 
 class CustomSignupForm(SignupForm):
     isPlayer = forms.BooleanField(required=False, label="Are you a Player?")

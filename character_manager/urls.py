@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("accounts/", include("allauth.urls")),
@@ -23,5 +25,5 @@ urlpatterns = [
     path("bg_info/", include("bg_info.urls"), name = "bg_info-urls"),
     #path('character_sheet/', include('character_sheet.urls')),
     path('summernote/', include('django_summernote.urls')),
-    path("", include("character_sheet.urls"), name="character_sheet"),
-]
+    path("", include("character_sheet.urls")),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

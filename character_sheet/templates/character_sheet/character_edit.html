@@ -11,7 +11,25 @@
                 <div class="card-body">
                     <form method="post" action="" enctype="multipart/form-data">
                         {% csrf_token %}
-                        
+
+                        <!-- Current profile picture -->
+                        {% if character.image %}
+                            <div class="text-center mb-4">
+                                <img src="{{ character.image.url }}" class="rounded-circle" alt="Profile Image" width="120">
+                            </div>
+                        {% endif %}
+
+                        <!-- upload image field -->
+                        <div class="form-group mb-3">
+                            <label for="id_image" class="form-label text-secondary">Profile Picture</label>
+                            {{ form.image }}
+
+                            {% if character.image %}
+                                <button type="submit" name="delete_image" class="btn btn-danger mt-2">Delete Image</button>
+                            {% endif %}
+
+                        </div>
+
                         <!-- Character Basic Info -->
                         <div class="form-group mb-3">
                             <label for="id_name" class="form-label text-secondary">Name</label>
@@ -52,7 +70,7 @@
                             {{ form.exhaustion }}
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 mt-4">Save Changes</button>
+                        <button type="submit" class="btn  btn-custom w-100 mt-4">Save Changes</button>
                     </form>
                 </div>
             </div>

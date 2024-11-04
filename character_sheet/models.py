@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.forms.widgets import ClearableFileInput
 from django.db import models
 
 class UserProfile(models.Model):
@@ -17,7 +18,9 @@ class Character(models.Model):
     hp = models.IntegerField()
     character_class = models.CharField(max_length=100, default='')
     character_race = models.CharField(max_length=100, default='')
-
+    
+    image = models.ImageField(upload_to='character_images/', blank=True, null=True, default='images/placeholder_profile.svg')
+    
     blinded = models.BooleanField(default=False)
     charmed = models.BooleanField(default=False)
     deafened = models.BooleanField(default=False)

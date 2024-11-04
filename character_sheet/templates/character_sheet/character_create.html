@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <form method="post" action="" enctype="multipart/form-data">
                         {% csrf_token %}
-
+                        
                         <!-- Basic Info Fields -->
                         <div class="form-group mb-3">
                             <label for="id_name" class="form-label text-secondary">Name</label>
@@ -33,13 +33,19 @@
                             {{ form.character_race }}
                         </div>
 
+                        <!-- Image Upload -->
+                        <div class="form-group mb-3">
+                            <label for="id_image" class="form-label text-secondary">Profile Image</label>
+                            {{ form.image }}
+                        </div>
+
                         <!-- Status Effects with Sliding Toggles -->
                         <h5 class="text-secondary mb-3">Status Effects</h5>
                         <div class="form-group">
                             {% for field in form %}
                                 {% if field.name in "blinded charmed deafened frightened grappled incapacitated invisible paralyzed petrified poisoned prone restrained stunned unconscious" %}
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input bg-dark border-secondary" id="{{ field.id_for_label }}" name="{{ field.name }}" {% if field.value %}checked{% endif %}>
+                                        {{ field }}
                                         <label class="form-check-label text-secondary" for="{{ field.id_for_label }}">{{ field.label }}</label>
                                     </div>
                                 {% endif %}
@@ -52,7 +58,7 @@
                             {{ form.exhaustion }}
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 mt-4">Create Character</button>
+                        <button type="submit" class="btn btn-custom w-100 mt-4">Create Character</button>
                     </form>
                 </div>
             </div>

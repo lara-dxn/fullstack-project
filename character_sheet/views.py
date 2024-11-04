@@ -38,20 +38,27 @@ def character_edit(request, slug):
     """
     character = get_object_or_404(Character, slug=slug)
 
-    try:
-        character.owner = request.user.userprofile
-    except ObjectDoesNotExist:
-        messages.error(request, "You must have a UserProfile to create or manage characters.")
-        return redirect('home')    
-
     # Check permissions: only the owner, a GM, or an admin can edit
     if request.user != character.owner.user and not request.user.is_staff and not request.user.userprofile.isGM:
         raise PermissionDenied
 
     if request.method == 'POST':
-        form = CharacterForm(request.POST, instance=character)
+        # Handle image deletion if delete_image button was clicked
+        if 'delete_image' in request.POST:
+            if character.image:
+                # Delete the image file from the filesystem
+                character.image.delete(save=False)
+            # Set to default image path
+            character.image = 'images/placeholder_profile.svg'
+            character.save()
+            messages.success(request, "Profile picture has been reset to the default image.")
+            return redirect('character_edit', slug=character.slug)
+
+        # Otherwise, handle the form submission for edits
+        form = CharacterForm(request.POST, request.FILES, instance=character)
         if form.is_valid():
             form.save()
+            messages.success(request, "Character details updated successfully.")
             return redirect('character_detail', slug=character.slug)
     else:
         form = CharacterForm(instance=character)
