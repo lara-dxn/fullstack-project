@@ -1,13 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.utils.text import slugify
+from django.contrib import messages
 from .models import Character, UserProfile
 from .forms import CharacterForm
 from django.contrib.auth.decorators import login_required
 
 @login_required
 def character_create(request):
+    """
+    Allows any logged in user to create a the character.
+    Slugs are automatically generated based on character name.
+    """
     if request.method == "POST":
         form = CharacterForm(request.POST)
         if form.is_valid():
@@ -30,9 +34,11 @@ def character_create(request):
 
     return render(request, "character_sheet/character_create.html", {"form": form})
 
-
 @login_required
 def character_edit(request, slug):
+    """
+    Allows the owner of a character or a GM to edit the character.
+    """
     character = get_object_or_404(Character, slug=slug)
 
     # Check permissions: only the owner, a GM, or an admin can edit
@@ -49,6 +55,21 @@ def character_edit(request, slug):
 
     return render(request, 'character_sheet/character_edit.html', {'form': form, 'character': character})
 
+@login_required
+def character_delete(request, slug):
+    """
+    Allows the owner of a character or a GM to delete the character.
+    """
+    character = get_object_or_404(Character, slug=slug)
+
+    # Check if the user is the owner of the character or a GM
+    if request.user.userprofile == character.owner or request.user.userprofile.isGM:
+        character.delete()
+        messages.success(request, f"The character '{character.name}' has been deleted successfully.")
+        return redirect('home')
+    else:
+        messages.error(request, "You do not have permission to delete this character.")
+        return redirect('character_detail', slug=slug)
 
 class CharacterList(generic.ListView):
     queryset = Character.objects.all()
@@ -69,7 +90,13 @@ class CharacterList(generic.ListView):
 @login_required
 def character_detail(request, slug):
     character = get_object_or_404(Character, slug=slug)
-    user_profile = UserProfile.objects.get(user=request.user)
+    user_profile = getattr(request.user, 'userprofile', None)
+    can_edit = (
+        request.user == character.owner.user or
+        request.user.is_superuser or
+        (user_profile and user_profile.isGM)
+    )
+    
     status_effects = [
         ('blinded', 'Blinded'), ('charmed', 'Charmed'), ('deafened', 'Deafened'),
         ('frightened', 'Frightened'), ('grappled', 'Grappled'), ('incapacitated', 'Incapacitated'),
@@ -81,5 +108,6 @@ def character_detail(request, slug):
     context = {
         'character': character,
         'status_effects': status_effects,
+        'can_edit': can_edit,
     }
     return render(request, 'character_sheet/character_detail.html', context)

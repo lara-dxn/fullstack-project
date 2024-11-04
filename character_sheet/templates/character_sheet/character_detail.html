@@ -14,9 +14,10 @@
                     <h2>{{ character.name }}</h2>
                     <p class="mb-0">Played by: {{ character.owner }}</p>
                     
-                    <!-- Edit Button for Owner, GMs, or Admin -->
-                    {% if request.user == character.owner.user or request.user.is_superuser or request.user.userprofile.isGM %}
+                    <!-- Edit / Delete buttons for character owner, gm, admin-->
+                    {% if character.slug and can_edit %}
                         <a href="{% url 'character_edit' character.slug %}" class="btn btn-primary mt-3">Edit Character</a>
+                        <a href="{% url 'character_delete' character.slug %}" class="btn btn-danger mt-3">Delete Character</a>
                     {% endif %}
                 </div>
 
