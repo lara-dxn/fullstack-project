@@ -5,7 +5,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     isPlayer = models.BooleanField(default=False)
     isGM = models.BooleanField(default=False)
-
+    
     def __str__(self):
         return self.user.username
 
@@ -32,6 +32,9 @@ class Character(models.Model):
     stunned = models.BooleanField(default=False)
     unconscious = models.BooleanField(default=False)
     exhaustion = models.IntegerField(choices=[(0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], default=0)
+
+    class Meta:
+        ordering = ['name']  # Order characters alphabetically by name
 
     def __str__(self):
         return f"{self.name} - {self.character_class}"

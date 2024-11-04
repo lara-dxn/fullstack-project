@@ -5,7 +5,6 @@
 
 {% block content %}
 
-<!-- Character Detail Page -->
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 mb-4">
@@ -14,6 +13,11 @@
                 <div class="card-header text-center">
                     <h2>{{ character.name }}</h2>
                     <p class="mb-0">Played by: {{ character.owner }}</p>
+                    
+                    <!-- Edit Button for Owner, GMs, or Admin -->
+                    {% if request.user == character.owner.user or request.user.is_superuser or request.user.userprofile.isGM %}
+                        <a href="{% url 'character_edit' character.slug %}" class="btn btn-primary mt-3">Edit Character</a>
+                    {% endif %}
                 </div>
 
                 <!-- Profile Image -->
@@ -36,14 +40,14 @@
                         </div>
                     </div>
                     
-                    <!-- Status Effects -->
+                    <!-- Status Effects with Sliders -->
                     <h5 class="text-secondary mb-3">Status Effects</h5>
                     <div class="row">
                         {% for status, label in status_effects %}
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled {% if character|attr:status %}checked{% endif %}>
-                                <label class="form-check-label">{{ label }}</label>
+                        <div class="col-12 mb-2">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="{{ status }}" disabled {% if character|attr:status %}checked{% endif %}>
+                                <label class="form-check-label" for="{{ status }}">{{ label }}</label>
                             </div>
                         </div>
                         {% endfor %}

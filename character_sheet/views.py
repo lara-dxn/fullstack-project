@@ -1,6 +1,28 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from .models import Character, UserProfile
+from .forms import CharacterForm
+from django.contrib.auth.decorators import login_required
+
+
+
+@login_required
+def character_edit(request, slug):
+    character = get_object_or_404(Character, slug=slug)
+    if request.method == "POST":
+        form = CharacterForm(request.POST, instance=character)
+        if form.is_valid():
+            form.save()
+            return redirect('character_detail', slug=character.slug)
+    else:
+        form = CharacterForm(instance=character)
+    
+    context = {
+        'form': form,
+        'character': character
+    }
+    return render(request, 'character_sheet/character_edit.html', context)
+
 
 class CharacterList(generic.ListView):
     queryset = Character.objects.all()
