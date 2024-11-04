@@ -46,6 +46,9 @@
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == bg_info_url %}active{% endif %}" href="{% url 'bg_info' %}">How to use</a>
                     </li>
+                    {% if user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'character_create' %}">Create Character</a>
+                    {% endif %}
                 </ul>
     
                 <!-- User Greeting and Auth Links -->

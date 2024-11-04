@@ -1,28 +1,53 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
+from django.utils.text import slugify
 from .models import Character, UserProfile
 from .forms import CharacterForm
 from django.contrib.auth.decorators import login_required
 
+@login_required
+def character_create(request):
+    if request.method == "POST":
+        form = CharacterForm(request.POST)
+        if form.is_valid():
+            character = form.save(commit=False)
+            character.owner = request.user.userprofile
+
+            # Generate a unique slug
+            base_slug = slugify(character.name)
+            unique_slug = base_slug
+            count = 1
+            while Character.objects.filter(slug=unique_slug).exists():
+                unique_slug = f"{base_slug}-{count}"
+                count += 1
+            character.slug = unique_slug
+
+            character.save()
+            return redirect("character_detail", slug=character.slug)
+    else:
+        form = CharacterForm()
+
+    return render(request, "character_sheet/character_create.html", {"form": form})
 
 
 @login_required
 def character_edit(request, slug):
     character = get_object_or_404(Character, slug=slug)
-    if request.method == "POST":
+
+    # Check permissions: only the owner, a GM, or an admin can edit
+    if request.user != character.owner.user and not request.user.is_staff and not request.user.userprofile.isGM:
+        raise PermissionDenied
+
+    if request.method == 'POST':
         form = CharacterForm(request.POST, instance=character)
         if form.is_valid():
             form.save()
             return redirect('character_detail', slug=character.slug)
     else:
         form = CharacterForm(instance=character)
-    
-    context = {
-        'form': form,
-        'character': character
-    }
-    return render(request, 'character_sheet/character_edit.html', context)
+
+    return render(request, 'character_sheet/character_edit.html', {'form': form, 'character': character})
 
 
 class CharacterList(generic.ListView):
@@ -52,27 +77,9 @@ def character_detail(request, slug):
         ('poisoned', 'Poisoned'), ('prone', 'Prone'), ('restrained', 'Restrained'),
         ('stunned', 'Stunned'), ('unconscious', 'Unconscious')
     ]
-    comments = Comment.objects.filter(character=character)
-
-    # Check if the user is the owner or a GM to allow comments
-    can_comment = user_profile == character.owner or user_profile.isGM
-
-    form = CommentForm(request.POST or None)
-    if request.method == "POST":
-        if not can_comment:
-            return HttpResponseForbidden("You do not have permission to comment.")
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.character = character
-            comment.user = request.user
-            comment.save()
-            return redirect('character_detail', slug=character.slug)
 
     context = {
         'character': character,
         'status_effects': status_effects,
-        'comments': comments,
-        'form': form,
-        'can_comment': can_comment,
     }
     return render(request, 'character_sheet/character_detail.html', context)
