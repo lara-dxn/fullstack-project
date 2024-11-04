@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from .models import Character, UserProfile
 from .forms import CharacterForm
@@ -40,13 +41,10 @@ class CharacterList(generic.ListView):
         ]
         return context
 
+@login_required
 def character_detail(request, slug):
-    """
-    Displays character details
-
-    """
-
     character = get_object_or_404(Character, slug=slug)
+    user_profile = UserProfile.objects.get(user=request.user)
     status_effects = [
         ('blinded', 'Blinded'), ('charmed', 'Charmed'), ('deafened', 'Deafened'),
         ('frightened', 'Frightened'), ('grappled', 'Grappled'), ('incapacitated', 'Incapacitated'),
@@ -54,9 +52,27 @@ def character_detail(request, slug):
         ('poisoned', 'Poisoned'), ('prone', 'Prone'), ('restrained', 'Restrained'),
         ('stunned', 'Stunned'), ('unconscious', 'Unconscious')
     ]
-    
+    comments = Comment.objects.filter(character=character)
+
+    # Check if the user is the owner or a GM to allow comments
+    can_comment = user_profile == character.owner or user_profile.isGM
+
+    form = CommentForm(request.POST or None)
+    if request.method == "POST":
+        if not can_comment:
+            return HttpResponseForbidden("You do not have permission to comment.")
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.character = character
+            comment.user = request.user
+            comment.save()
+            return redirect('character_detail', slug=character.slug)
+
     context = {
         'character': character,
         'status_effects': status_effects,
+        'comments': comments,
+        'form': form,
+        'can_comment': can_comment,
     }
     return render(request, 'character_sheet/character_detail.html', context)
