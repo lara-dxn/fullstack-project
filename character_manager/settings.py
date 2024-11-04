@@ -28,10 +28,10 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = 'django-insecure-n$9=t$i2cu3at%6dm*eny&qbofzub!bd5286=@7qu&h7gitg_^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
-
+ACCOUNT_FORMS = {'signup': 'character_sheet.forms.CustomSignupForm'}
 
 # Application definition
 
@@ -43,12 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'character_sheet.apps.CharacterSheetConfig',  # Keep only this one for character_sheet
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'django_summernote',
-    'character_sheet',
-    'bg_info'
+    'bg_info',
 ]
 
 SITE_ID = 1

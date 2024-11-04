@@ -22,10 +22,28 @@
                     <!-- Sign Up Form -->
                     <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
                         {% csrf_token %}
-                        {{ form.as_p }}
+
+                        <!-- Default Signup Fields -->
+                        {{ form.non_field_errors }}
+                        <div class="mb-3">{{ form.username.label_tag }} {{ form.username }}</div>
+                        <div class="mb-3">{{ form.email.label_tag }} {{ form.email }}</div>
+                        <div class="mb-3">{{ form.password1.label_tag }} {{ form.password1 }}</div>
+                        <div class="mb-3">{{ form.password2.label_tag }} {{ form.password2 }}</div>
+
+                        <!-- Custom Profile Fields -->
+                        <div class="form-check mt-3">
+                            {{ form.isPlayer }}
+                            {{ form.isPlayer.label_tag }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.isGM }}
+                            {{ form.isGM.label_tag }}
+                        </div>
+
                         {% if redirect_field_value %}
                             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                         {% endif %}
+
                         <button class="btn btn-primary-dark w-100 mt-3" type="submit">{% trans "Sign Up" %}</button>
                     </form>
                 </div>
