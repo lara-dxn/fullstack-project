@@ -38,19 +38,23 @@ class Character(models.Model):
         ordering = ['name']  # Order characters alphabetically by name
     
     def save(self, *args, **kwargs):
-        # Check if slug is already set; if not, create one
+        """
+        Automatically generate a unique slug based on the character's name at creation
+        """
+
         if not self.slug:
             # Generate initial slug from the character's name
             base_slug = slugify(self.name)
-            slug = base_slug
+            unique_slug = base_slug
             counter = 1
-            
-            # Loop to find a unique slug
-            while Character.objects.filter(slug=slug).exists():
-                slug = f"{base_slug}-{counter}"
+
+            # Loop to ensure the slug is unique
+            while Character.objects.filter(slug=unique_slug).exists():
+                unique_slug = f"{base_slug}-{counter}"
                 counter += 1
-            
-            self.slug = slug
+
+            self.slug = unique_slug
+        super().save(*args, **kwargs)
             
         super(Character, self).save(*args, **kwargs)
 

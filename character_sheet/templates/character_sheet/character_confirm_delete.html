@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-lg dark-bg text-white">
+                <div class="card-header text-center">
+                    <h3>Delete Character</h3>
+                </div>
+                <div class="card-body text-center">
+                    <p class="text-dark fw-bold">Are you sure you want to delete <strong>{{ character.name }}</strong>?</p>
+                    <p class="text-danger">This action is permanent.</p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger mt-3">Yes, Delete</button>
+                        <a href="{% url 'character_detail' character.slug %}" class="btn btn-secondary mt-3">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
